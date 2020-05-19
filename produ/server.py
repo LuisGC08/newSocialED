@@ -1,7 +1,7 @@
 # -*- coding: iso-8859-15 -*-
 
 
-from flask import Flask, request
+from flask import Flask, request, render_template
 
 from produ.templates.python import process_missingFields
 
@@ -27,6 +27,12 @@ def login():
 def signup():
     return app.send_static_file('signup.html')
 
+    def process_missingFields(campos, next_page):
+        """
+        :param campos: Lista de Campos que faltan
+        :param next_page: ruta al pulsar botón continuar
+        :return: plantilla generada
+        """
 
 @app.route('/processLogin', methods=['GET', 'POST'])
 def processLogin():
@@ -39,6 +45,8 @@ def processLogin():
     if missing:
         return process_missingFields(missing, "/login")
 
+
+        return render_template("missingFields.html", inputs=campos, next=next_page)
     return '<!DOCTYPE html> ' \
            '<html lang="es">' \
            '<head>' \
